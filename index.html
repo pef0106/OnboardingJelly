@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guide Jellyfin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --surface: #f7f6f3;
+      --border: #e9e9e7;
+      --text: #37352f;
+      --text-secondary: #787774;
+      --accent: #2383e2;
+      --accent-light: #eef4fb;
+      --radius: 8px;
+      --max: 680px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 0 16px 80px;
+    }
+
+    /* HEADER */
+    header {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 48px 0 32px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    /* MAIN */
+    main {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    /* INTRO CARD */
+    .intro {
+      background: var(--accent-light);
+      border: 1px solid #c7dcf5;
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 40px;
+      font-size: 14px;
+      color: #1a5fa0;
+      line-height: 1.6;
+    }
+
+    .intro strong { font-weight: 600; }
+
+    /* SECTION */
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title .icon {
+      width: 32px;
+      height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    /* STEPS */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .step {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 16px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      background: var(--text);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-content { flex: 1; }
+
+    .step-content strong {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 2px;
+      font-size: 15px;
+    }
+
+    .step-content p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .step-content a {
+      color: var(--accent);
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .step-content a:hover { text-decoration: underline; }
+
+    /* CODE / URL */
+    .url-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 13px;
+      color: var(--text);
+      word-break: break-all;
+      margin: 8px 0;
+    }
+
+    /* TABS (sous-sections mobile) */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+
+    .tab-btn.active {
+      background: var(--text);
+      border-color: var(--text);
+      color: #fff;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: flex; flex-direction: column; gap: 12px; }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 40px 0;
+    }
+
+    /* STORE BADGES */
+    .store-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .store-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--text);
+      color: #fff;
+      text-decoration: none;
+      padding: 9px 16px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .store-link:hover { opacity: 0.85; }
+
+    /* CALLOUT */
+    .callout {
+      display: flex;
+      gap: 12px;
+      background: #fffbeb;
+      border: 1px solid #f5e07a;
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      font-size: 14px;
+      color: #6b5a00;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    .callout .callout-icon { font-size: 18px; flex-shrink: 0; }
+
+    /* FOOTER */
+    footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    /* RESPONSIVE DESKTOP */
+    @media (min-width: 600px) {
+      body { padding: 0 32px 80px; }
+      header { padding: 64px 0 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Guide Jellyfin</div>
+    <p class="subtitle">Tout ce qu'il faut savoir pour regarder vos contenus.</p>
+  </header>
+
+  <main>
+
+    <div class="intro">
+      <strong>Bienvenue !</strong> Ce guide vous explique comment acceder a Jellyfin depuis votre navigateur, votre telephone ou votre television. Si vous avez le moindre probleme, contactez-moi directement.
+    </div>
+
+    <!-- NAVIGATEUR -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon">&#128187;</span>
+        Sur navigateur (ordinateur ou telephone)
+      </h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Ouvrez votre navigateur</strong>
+            <p>Chrome, Firefox, Safari ou Edge — peu importe.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Rendez-vous a cette adresse</strong>
+            <div class="url-block">https://melozy.ismene.usbx.me/jellyfin</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Connectez-vous</strong>
+            <p>Entrez l'identifiant et le mot de passe qui vous ont ete fournis.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Profitez !</strong>
+            <p>Parcourez les films et series depuis la page d'accueil.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:16px;">
+        <span class="callout-icon">&#128204;</span>
+        <span>Conseil : ajoutez la page en <strong>favori</strong> pour y revenir facilement.</span>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- TELEPHONE -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon">&#128241;</span>
+        Sur telephone
+      </h2>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(this, 'ios')">iPhone (iOS)</button>
+        <button class="tab-btn" onclick="switchTab(this, 'android')">Android</button>
+      </div>
+
+      <div id="ios" class="tab-panel active">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Telechargez l'application Jellyfin</strong>
+            <div class="store-links">
+              <a class="store-link" href="https://apps.apple.com/fr/app/jellyfin-mobile/id1480192618" target="_blank">
+                App Store
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Ouvrez l'app et appuyez sur "Ajouter un serveur"</strong>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Entrez l'adresse du serveur</strong>
+            <div class="url-block">https://melozy.ismene.usbx.me/jellyfin</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Connectez-vous avec vos identifiants</strong>
+          </div>
+        </div>
+      </div>
+
+      <div id="android" class="tab-panel">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Telechargez l'application Jellyfin</strong>
+            <div class="store-links">
+              <a class="store-link" href="https://play.google.com/store/apps/details?id=org.jellyfin.mobile" target="_blank">
+                Google Play
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Ouvrez l'app et appuyez sur "Ajouter un serveur"</strong>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Entrez l'adresse du serveur</strong>
+            <div class="url-block">https://melozy.ismene.usbx.me/jellyfin</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Connectez-vous avec vos identifiants</strong>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- TELEVISION -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon">&#128250;</span>
+        Sur television
+      </h2>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(this, 'androidtv')">Android TV / Google TV</button>
+        <button class="tab-btn" onclick="switchTab(this, 'appletv')">Apple TV</button>
+        <button class="tab-btn" onclick="switchTab(this, 'smarttv')">Smart TV</button>
+      </div>
+
+      <div id="androidtv" class="tab-panel active">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Ouvrez le Google Play Store sur votre TV</strong>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Recherchez "Jellyfin" et installez l'application</strong>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Lancez Jellyfin et choisissez "Ajouter un serveur"</strong>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Entrez l'adresse du serveur</strong>
+            <div class="url-block">https://melozy.ismene.usbx.me/jellyfin</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <strong>Connectez-vous avec vos identifiants</strong>
+          </div>
+        </div>
+      </div>
+
+      <div id="appletv" class="tab-panel">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Ouvrez l'App Store sur votre Apple TV</strong>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Recherchez "Swiftfin" (le client Jellyfin pour Apple TV)</strong>
+            <p>C'est l'application officielle recommandee pour Apple TV.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Lancez Swiftfin et ajoutez le serveur</strong>
+            <div class="url-block">https://melozy.ismene.usbx.me/jellyfin</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Connectez-vous avec vos identifiants</strong>
+          </div>
+        </div>
+      </div>
+
+      <div id="smarttv" class="tab-panel">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Samsung (Tizen) ou LG (webOS)</strong>
+            <p>Jellyfin n'est pas disponible directement sur ces TV. La solution la plus simple est d'utiliser le navigateur integre.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Ouvrez le navigateur de votre TV</strong>
+            <p>Samsung : application "Internet". LG : application "Navigateur web".</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Rendez-vous a cette adresse</strong>
+            <div class="url-block">https://melozy.ismene.usbx.me/jellyfin</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Connectez-vous avec vos identifiants</strong>
+          </div>
+        </div>
+        <div class="callout">
+          <span class="callout-icon">&#128161;</span>
+          <span>Astuce : branchez un clavier USB ou utilisez votre telephone comme clavier pour saisir plus facilement l'adresse.</span>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- AIDE -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon">&#10067;</span>
+        Problemes frequents
+      </h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-content">
+            <strong>Le serveur ne repond pas</strong>
+            <p>Verifiez votre connexion internet. Si le probleme persiste, contactez-moi.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <strong>Identifiants incorrects</strong>
+            <p>Verifiez que la touche Maj n'est pas activee. Contactez-moi si besoin d'un reinitialisation.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <strong>La video ne se lance pas</strong>
+            <p>Essayez de changer la qualite de lecture (icone engrenage pendant la lecture) ou passez par le navigateur web.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <strong>Autre probleme</strong>
+            <p>Contactez-moi directement et je vous aiderai.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Guide mis a jour en 2025 &mdash; Pour toute question, contactez-moi directement.
+  </footer>
+
+  <script>
+    function switchTab(btn, panelId) {
+      const section = btn.closest('.section');
+      section.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      section.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(panelId).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
