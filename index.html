@@ -313,6 +313,21 @@
       border-top: 1px solid var(--border); margin-top: 32px;
     }
 
+    /* ── WELCOME ─────────────────────────────────────────────────────────────── */
+    .welcome-body {
+      text-align: center;
+      padding: 56px 0 0;
+    }
+    .welcome-body h1 {
+      font-size: 28px; font-weight: 600; letter-spacing: -0.4px;
+      margin-bottom: 20px; line-height: 1.25;
+    }
+    .welcome-body p {
+      font-size: 16px; color: var(--text-secondary);
+      line-height: 1.75; max-width: 360px; margin: 0 auto;
+    }
+    .welcome-body .cta-primary { margin-top: 44px; }
+
     /* ── REQUEST ──────────────────────────────────────────────────────────────── */
     .request-box {
       background: var(--surface); border: 1px solid var(--border);
@@ -341,7 +356,7 @@
       <p>Par quoi tu veux commencer ?</p>
     </div>
 
-    <a class="cta-primary" href="#start">C'est ma première fois →</a>
+    <a class="cta-primary" href="#welcome">C'est ma première fois →</a>
 
     <div class="cards-grid">
       <a class="card" href="#install">
@@ -375,9 +390,19 @@
     <a class="footer-link" href="#request">➕ Demander un film ou une série</a>
   </div>
 
+  <!-- ── WELCOME ───────────────────────────────────────────────────────────── -->
+  <div id="screen-welcome" class="screen">
+    <a class="back-link" href="#home">← Retour</a>
+    <div class="welcome-body">
+      <h1>C'est quoi PF.tv&nbsp;?</h1>
+      <p>Un projet perso : ma bibliothèque de films et séries, partagée avec mes proches. À regarder sur ton téléphone, ta TV, ou directement dans ton navigateur.</p>
+      <button class="cta-primary" onclick="startGuided()">Choisir mon appareil →</button>
+    </div>
+  </div>
+
   <!-- ── INSTALL PICKER ─────────────────────────────────────────────────────── -->
   <div id="screen-install-picker" class="screen">
-    <a class="back-link" href="#home">← Retour</a>
+    <a id="picker-back" class="back-link" href="#home">← Retour</a>
     <div id="picker-progress"></div>
     <div class="page-header">
       <h1>Sur quel appareil ?</h1>
@@ -767,10 +792,7 @@
       const raw = window.location.hash.slice(1) || 'home';
       const [segment, param] = raw.split('/');
 
-      if (segment === 'start') {
-        guidedMode = true;
-        return { screen: 'install-picker' };
-      }
+      if (segment === 'start') return { screen: 'welcome' };
       if (segment === 'install' && param) return { screen: 'install-guide', device: param };
       if (segment === 'install')          return { screen: 'install-picker' };
       return { screen: segment };
@@ -804,10 +826,13 @@
       el.classList.add('active');
       window.scrollTo(0, 0);
 
-      if (screen === 'install-picker') renderProgress('picker-progress', 1);
+      if (screen === 'install-picker') {
+        renderProgress('picker-progress', 1);
+        document.getElementById('picker-back').href = guidedMode ? '#welcome' : '#home';
+      }
       if (screen === 'install-guide')  renderProgress('guide-progress', 2);
       if (screen === 'tips')           renderProgress('tips-progress', 3);
-      if (screen === 'home')           guidedMode = false;
+      if (screen === 'home' || screen === 'welcome') guidedMode = false;
 
       if (screen === 'install-guide' && device) renderGuide(device);
     }
@@ -864,6 +889,12 @@
       html += '</div>';
 
       container.innerHTML = html;
+    }
+
+    // ─── GUIDED MODE ENTRY ─────────────────────────────────────────────────────
+    function startGuided() {
+      guidedMode = true;
+      window.location.hash = 'install';
     }
 
     // ─── COPY URL ──────────────────────────────────────────────────────────────
