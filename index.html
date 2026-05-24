@@ -72,7 +72,7 @@
       .container { padding: 0 32px; }
     }
 
-    /* ── CHROME (header fixe léger) ───────────────────────────────────────────── */
+    /* ── HEADER ───────────────────────────────────────────────────────────────── */
     .site-header {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -94,7 +94,23 @@
       color: var(--accent);
       letter-spacing: 1px;
       text-transform: uppercase;
+      flex-shrink: 0;
     }
+
+    /* Indicateur de section — centre du header */
+    .section-indicator {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .section-indicator.visible { opacity: 1; }
 
     .theme-toggle {
       width: 34px; height: 34px;
@@ -104,6 +120,7 @@
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       font-size: 14px;
+      flex-shrink: 0;
       transition: background 0.2s, border-color 0.2s;
     }
     .theme-toggle:hover { border-color: var(--text-secondary); }
@@ -117,12 +134,11 @@
       border-top: 1px solid var(--separator);
     }
 
-    /* Section hors-ligne : fond légèrement distinct */
     #offline {
       background: var(--offline-bg);
     }
 
-    /* ── TIPOGRAPHIE ─────────────────────────────────────────────────────────── */
+    /* ── TYPOGRAPHIE ──────────────────────────────────────────────────────────── */
     .section-label {
       font-size: 11px;
       font-weight: 600;
@@ -153,7 +169,7 @@
       padding-bottom: 80px;
     }
 
-    #hero .hero-title {
+    .hero-title {
       font-size: clamp(28px, 6vw, 40px);
       font-weight: 600;
       letter-spacing: -0.5px;
@@ -161,15 +177,59 @@
       margin-bottom: 20px;
     }
 
-    #hero .hero-lead {
+    .hero-lead {
       font-size: 17px;
       color: var(--text-secondary);
       line-height: 1.75;
       max-width: 480px;
     }
 
+    /* ── TABS PRINCIPAUX ──────────────────────────────────────────────────────── */
+    .tabs-nav {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 32px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 1px;
+    }
+    .tabs-nav::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      flex-shrink: 0;
+      padding: 8px 14px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { border-color: var(--text-secondary); color: var(--text); }
+    .tab-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .tab-intro {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .tab-intro strong { color: var(--text); font-weight: 500; }
+
     /* ── STEPS ────────────────────────────────────────────────────────────────── */
-    .steps { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+    .steps { display: flex; flex-direction: column; gap: 8px; }
 
     .step {
       display: flex; gap: 14px; align-items: flex-start;
@@ -263,7 +323,71 @@
     }
     .callout .ci { font-size: 15px; flex-shrink: 0; margin-top: 2px; }
 
-    /* ── REFLEXES LIST ────────────────────────────────────────────────────────── */
+    /* ── ACCORDÉONS (sous-options TV) ─────────────────────────────────────────── */
+    .accordion { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+
+    .accordion-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .accordion-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: none;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .accordion-btn:hover { background: var(--accent-surface); }
+
+    .accordion-icon {
+      flex-shrink: 0;
+      color: var(--text-secondary);
+      transition: transform 0.25s ease;
+    }
+    .accordion-item.open .accordion-icon { transform: rotate(180deg); }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: var(--bg);
+    }
+    .accordion-item.open .accordion-body { max-height: 900px; }
+
+    .accordion-inner {
+      padding: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .accordion-intro {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .accordion-intro strong { color: var(--text); font-weight: 500; }
+
+    .accordion-note {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-top: 10px;
+      line-height: 1.55;
+    }
+
+    /* ── RÉFLEXES ─────────────────────────────────────────────────────────────── */
     .reflex-list { display: flex; flex-direction: column; gap: 8px; }
 
     .reflex-item {
@@ -275,7 +399,7 @@
     .reflex-item strong { display: block; font-weight: 500; font-size: 15px; margin-bottom: 3px; }
     .reflex-item p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
 
-    /* ── OFFLINE STEPS ────────────────────────────────────────────────────────── */
+    /* ── HORS-LIGNE ───────────────────────────────────────────────────────────── */
     .offline-intro {
       font-size: 15px;
       color: var(--text-secondary);
@@ -337,17 +461,6 @@
       font-size: 12px;
       color: var(--text-secondary);
     }
-
-    /* ── PLACEHOLDERS (remplis aux incréments suivants) ──────────────────────── */
-    .todo {
-      padding: 32px 20px;
-      background: var(--surface);
-      border: 1px dashed var(--border);
-      border-radius: 10px;
-      text-align: center;
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
   </style>
 </head>
 <body>
@@ -355,6 +468,7 @@
   <!-- ── HEADER ──────────────────────────────────────────────────────────────── -->
   <header class="site-header" id="site-header">
     <span class="site-logo">PF.tv</span>
+    <span class="section-indicator" id="section-indicator"></span>
     <button class="theme-toggle" id="theme-toggle" aria-label="Changer le thème">☀️</button>
   </header>
 
@@ -372,8 +486,281 @@
       <p class="section-label">Installation</p>
       <h2 class="section-title">Comment l'utiliser</h2>
       <p class="section-subtitle">Tu peux installer une vraie app sur ton appareil, ou simplement ouvrir PF.tv dans ton navigateur. À toi de voir selon l'usage que tu en feras.</p>
-      <div class="todo">Tabs — incrément 2</div>
-    </div>
+
+      <!-- Tabs nav -->
+      <nav class="tabs-nav" role="tablist" aria-label="Choisir son appareil">
+        <button class="tab-btn active" role="tab" data-tab="ios" aria-selected="true">📱 iPhone &amp; iPad</button>
+        <button class="tab-btn" role="tab" data-tab="android" aria-selected="false">🤖 Android</button>
+        <button class="tab-btn" role="tab" data-tab="tv" aria-selected="false">📺 TV</button>
+        <button class="tab-btn" role="tab" data-tab="web" aria-selected="false">🌐 Navigateur web</button>
+      </nav>
+
+      <!-- Tab : iPhone & iPad -->
+      <div class="tab-panel active" id="tab-ios" role="tabpanel">
+        <p class="tab-intro">L'app à utiliser : <strong>Streamyfin</strong>. Plus moderne que l'officielle, et tu peux télécharger des films pour les regarder hors-ligne.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <strong>Télécharge Streamyfin sur l'App Store</strong>
+              <a class="store-link" href="https://apps.apple.com/app/streamyfin/id6593660679" target="_blank" rel="noopener">Ouvrir l'App Store →</a>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <strong>Lance l'app et ajoute le serveur</strong>
+              <p>Au premier démarrage, Streamyfin te demande l'adresse du serveur.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <strong>Entre cette adresse</strong>
+              <div class="url-row">
+                <div class="url-block" id="url-ios">https://melozy.ismene.usbx.me/jellyfin</div>
+                <button class="copy-btn" onclick="copyUrl(this,'url-ios')">Copier</button>
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <strong>Connecte-toi</strong>
+              <p>Avec les identifiants que je t'ai envoyés.</p>
+              <span class="help-inline">Pas retrouvé tes identifiants ? Contacte-moi, je te les renvoie.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab : Android -->
+      <div class="tab-panel" id="tab-android" role="tabpanel">
+        <p class="tab-intro">Même app que sur iOS : <strong>Streamyfin</strong>. Mêmes avantages, dont le téléchargement hors-ligne.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <strong>Télécharge Streamyfin sur le Play Store</strong>
+              <a class="store-link" href="https://play.google.com/store/apps/details?id=com.fredrikburmester.streamyfin" target="_blank" rel="noopener">Ouvrir le Play Store →</a>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <strong>Lance l'app et ajoute le serveur</strong>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <strong>Entre cette adresse</strong>
+              <div class="url-row">
+                <div class="url-block" id="url-android">https://melozy.ismene.usbx.me/jellyfin</div>
+                <button class="copy-btn" onclick="copyUrl(this,'url-android')">Copier</button>
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <strong>Connecte-toi</strong>
+              <p>Avec les identifiants que je t'ai envoyés.</p>
+              <span class="help-inline">Pas retrouvé tes identifiants ? Contacte-moi, je te les renvoie.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab : TV -->
+      <div class="tab-panel" id="tab-tv" role="tabpanel">
+        <p class="tab-intro">Plusieurs cas possibles selon ton équipement. Choisis le tien.</p>
+        <div class="accordion">
+
+          <!-- Apple TV -->
+          <div class="accordion-item">
+            <button class="accordion-btn" aria-expanded="false">
+              <span>🍎 Apple TV</span>
+              <svg class="accordion-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-inner">
+                <p class="accordion-intro">Sur Apple TV, l'app à utiliser est <strong>Swiftfin</strong> — Streamyfin n'a pas encore d'app Apple TV.</p>
+                <div class="steps">
+                  <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Ouvre l'App Store de ta Apple TV</strong></div></div>
+                  <div class="step"><div class="step-num">2</div><div class="step-content"><strong>Cherche "Swiftfin" et installe-la</strong></div></div>
+                  <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Lance Swiftfin, choisis "Ajouter un serveur"</strong></div></div>
+                  <div class="step">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                      <strong>Entre l'adresse du serveur</strong>
+                      <div class="url-row">
+                        <div class="url-block" id="url-appletv">https://melozy.ismene.usbx.me/jellyfin</div>
+                        <button class="copy-btn" onclick="copyUrl(this,'url-appletv')">Copier</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="step">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                      <strong>Connecte-toi</strong>
+                      <span class="help-inline">Pas retrouvé tes identifiants ? Contacte-moi, je te les renvoie.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Android TV -->
+          <div class="accordion-item">
+            <button class="accordion-btn" aria-expanded="false">
+              <span>📺 Android TV / Google TV</span>
+              <svg class="accordion-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-inner">
+                <p class="accordion-intro">Sur Android TV, c'est l'app officielle <strong>Jellyfin</strong> qui est la plus fiable.</p>
+                <div class="steps">
+                  <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Ouvre le Play Store sur ta TV</strong></div></div>
+                  <div class="step"><div class="step-num">2</div><div class="step-content"><strong>Cherche "Jellyfin" et installe l'app</strong></div></div>
+                  <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Lance l'app, choisis "Ajouter un serveur"</strong></div></div>
+                  <div class="step">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                      <strong>Entre l'adresse du serveur</strong>
+                      <div class="url-row">
+                        <div class="url-block" id="url-androidtv">https://melozy.ismene.usbx.me/jellyfin</div>
+                        <button class="copy-btn" onclick="copyUrl(this,'url-androidtv')">Copier</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="step">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                      <strong>Connecte-toi</strong>
+                      <span class="help-inline">Pas retrouvé tes identifiants ? Contacte-moi, je te les renvoie.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Samsung / LG -->
+          <div class="accordion-item">
+            <button class="accordion-btn" aria-expanded="false">
+              <span>📺 Samsung / LG</span>
+              <svg class="accordion-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-inner">
+                <p class="accordion-intro">Pas d'app native sur ces marques. On passe par le <strong>navigateur de la TV</strong>.</p>
+                <div class="steps">
+                  <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                      <strong>Ouvre le navigateur de ta TV</strong>
+                      <p>Samsung : app "Internet" — LG : "Navigateur web".</p>
+                    </div>
+                  </div>
+                  <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                      <strong>Va à l'adresse du serveur</strong>
+                      <div class="url-row">
+                        <div class="url-block" id="url-smarttv">https://melozy.ismene.usbx.me/jellyfin</div>
+                        <button class="copy-btn" onclick="copyUrl(this,'url-smarttv')">Copier</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                      <strong>Connecte-toi</strong>
+                      <span class="help-inline">Pas retrouvé tes identifiants ? Contacte-moi, je te les renvoie.</span>
+                    </div>
+                  </div>
+                  <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Mets la page en favori</strong></div></div>
+                </div>
+                <div class="callout tip">
+                  <span class="ci">💡</span>
+                  <span>Un clavier USB t'évitera de taper l'URL avec la télécommande pendant 10 minutes.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Box / Chromecast -->
+          <div class="accordion-item">
+            <button class="accordion-btn" aria-expanded="false">
+              <span>📡 Box TV / Chromecast</span>
+              <svg class="accordion-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-inner">
+                <p class="accordion-intro">Tu as une box opérateur (Bbox, Freebox, Livebox…) ou une TV sans Jellyfin disponible ? Tu peux quand même regarder PF.tv en castant depuis ton téléphone.</p>
+                <div class="steps">
+                  <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                      <strong>Installe Streamyfin sur ton téléphone</strong>
+                      <p>Voir l'onglet iPhone ou Android ci-dessus.</p>
+                    </div>
+                  </div>
+                  <div class="step"><div class="step-num">2</div><div class="step-content"><strong>Lance un film ou un épisode dans Streamyfin</strong></div></div>
+                  <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Appuie sur l'icône Cast dans le lecteur</strong></div></div>
+                  <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Sélectionne ton Chromecast ou ta TV compatible</strong></div></div>
+                </div>
+                <p class="accordion-note">Il te faut un Chromecast ou une TV qui supporte Cast nativement. Si ta box ne supporte pas Cast, le navigateur de la TV reste la solution.</p>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /accordion -->
+      </div>
+
+      <!-- Tab : Navigateur web -->
+      <div class="tab-panel" id="tab-web" role="tabpanel">
+        <p class="tab-intro">Le plus simple : aucune installation, juste un lien.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <strong>Ouvre ton navigateur</strong>
+              <p>Chrome, Firefox, Safari, Edge — peu importe.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <strong>Va à cette adresse</strong>
+              <div class="url-row">
+                <div class="url-block" id="url-web">https://melozy.ismene.usbx.me/jellyfin</div>
+                <button class="copy-btn" onclick="copyUrl(this,'url-web')">Copier</button>
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <strong>Connecte-toi</strong>
+              <p>Avec les identifiants que je t'ai envoyés.</p>
+              <span class="help-inline">Pas retrouvé tes identifiants ? Contacte-moi, je te les renvoie.</span>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content"><strong>Mets la page en favori</strong></div>
+          </div>
+        </div>
+        <div class="callout info">
+          <span class="ci">💡</span>
+          <span>Sur Chrome ou Edge, tu peux "installer" PF.tv comme une vraie app (menu → "Installer cette application"). Tu auras une icône comme pour n'importe quelle app, sans passer par un store.</span>
+        </div>
+      </div>
+
+    </div><!-- /container -->
   </section>
 
   <!-- ── 3. PREMIERS RÉFLEXES ─────────────────────────────────────────────────── -->
@@ -483,19 +870,82 @@
 
     applyTheme(localStorage.getItem('pftv-theme') || 'dark');
 
-    // ─── HEADER SCROLLED + BACK TO TOP ─────────────────────────────────────────
+    // ─── TABS ──────────────────────────────────────────────────────────────────
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        document.getElementById('tab-' + target).classList.add('active');
+      });
+    });
+
+    // ─── ACCORDÉONS ────────────────────────────────────────────────────────────
+    document.querySelectorAll('.accordion-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.accordion-item');
+        const isOpen = item.classList.contains('open');
+
+        // Ferme tous les autres
+        document.querySelectorAll('.accordion-item.open').forEach(other => {
+          other.classList.remove('open');
+          other.querySelector('.accordion-btn').setAttribute('aria-expanded', 'false');
+        });
+
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // ─── INDICATEUR DE SECTION + SCROLL UTILS ──────────────────────────────────
     const siteHeader = document.getElementById('site-header');
     const backTop    = document.getElementById('back-top');
+    const indicator  = document.getElementById('section-indicator');
 
-    window.addEventListener('scroll', () => {
+    const SECTION_LABELS = {
+      'hero':     '',
+      'how-to':   'Installation',
+      'reflexes': 'Prise en main',
+      'offline':  'Sans connexion',
+      'contact':  'Contact'
+    };
+
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+
+    function onScroll() {
       const y = window.scrollY;
+
       siteHeader.classList.toggle('scrolled', y > 10);
       backTop.classList.toggle('visible', y > 300);
-    }, { passive: true });
+
+      // Section courante = dernière section dont le haut est au-dessus du milieu du header
+      let current = sections[0];
+      for (const s of sections) {
+        if (s.offsetTop <= y + 80) current = s;
+      }
+
+      const label = SECTION_LABELS[current.id] ?? '';
+      indicator.textContent = label;
+      indicator.classList.toggle('visible', label !== '' && y > 80);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
     // ─── COPY URL ──────────────────────────────────────────────────────────────
-    function copyUrl(btn) {
-      navigator.clipboard.writeText(CONFIG.serverUrl).then(() => {
+    function copyUrl(btn, sourceId) {
+      const text = document.getElementById(sourceId)?.textContent?.trim()
+                   ?? CONFIG.serverUrl;
+      navigator.clipboard.writeText(text).then(() => {
         btn.textContent = 'Copié ✓';
         btn.classList.add('copied');
         setTimeout(() => {
