@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,22 +28,27 @@
     }
 
     :root[data-theme="light"] {
-      --bg:                 #ffffff;
-      --surface:            #f7f6f3;
-      --border:             #e9e9e7;
-      --text:               #37352f;
+      --bg:                 #fafaf9;
+      --surface:            #ffffff;
+      --border:             #e8e7e4;
+      --text:               #2d2c28;
       --text-secondary:     #787774;
-      --accent:             #7048d4;
+      --accent:             #6340c8;
       --accent-surface:     #f0eafa;
       --accent-border:      #c9b5f0;
       --callout-tip-bg:     #fffbeb;
       --callout-tip-border: #f5e07a;
-      --callout-tip-text:   #6b5a00;
+      --callout-tip-text:   #5a4a00;
       --callout-info-bg:    #eef4fb;
       --callout-info-border:#c7dcf5;
       --callout-info-text:  #1a5fa0;
-      --separator:          rgba(0,0,0,0.08);
-      --offline-bg:         #f3f1fb;
+      --separator:          rgba(0,0,0,0.07);
+      --offline-bg:         #f0eefb;
+      --card-shadow:        0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    :root[data-theme="dark"] {
+      --card-shadow:        none;
     }
 
     /* ── RESET ────────────────────────────────────────────────────────────────── */
@@ -184,6 +189,43 @@
       max-width: 480px;
     }
 
+    /* ── TABLE DES MATIÈRES ──────────────────────────────────────────────────── */
+    .toc {
+      margin-top: 44px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+    }
+
+    .toc-item {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      align-items: baseline;
+      gap: 12px;
+      padding: 13px 18px;
+      text-decoration: none;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .toc-item:last-child { border-bottom: none; }
+    .toc-item:hover { background: var(--accent-surface); }
+
+    .toc-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .toc-title {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
     /* ── TABS PRINCIPAUX ──────────────────────────────────────────────────────── */
     .tabs-nav {
       display: flex;
@@ -237,6 +279,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
+      box-shadow: var(--card-shadow);
     }
 
     .step-num {
@@ -330,6 +373,7 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       overflow: hidden;
+      box-shadow: var(--card-shadow);
     }
 
     .accordion-btn {
@@ -395,6 +439,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
+      box-shadow: var(--card-shadow);
     }
     .reflex-item strong { display: block; font-weight: 500; font-size: 15px; margin-bottom: 3px; }
     .reflex-item p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
@@ -477,6 +522,25 @@
     <div class="container">
       <h1 class="hero-title">Bienvenue sur PF.tv</h1>
       <p class="hero-lead">Un projet perso : ma bibliothèque de films et séries, partagée avec mes proches. Tu peux y accéder depuis ton téléphone, ta TV, ou n'importe quel navigateur.</p>
+
+      <nav class="toc" aria-label="Table des matières">
+        <a class="toc-item" href="#how-to">
+          <span class="toc-label">Installation</span>
+          <span class="toc-title">Comment l'utiliser</span>
+        </a>
+        <a class="toc-item" href="#reflexes">
+          <span class="toc-label">Prise en main</span>
+          <span class="toc-title">Tes premiers réflexes</span>
+        </a>
+        <a class="toc-item" href="#offline">
+          <span class="toc-label">Sans connexion</span>
+          <span class="toc-title">Le mode hors-ligne</span>
+        </a>
+        <a class="toc-item" href="#contact">
+          <span class="toc-label">Contact</span>
+          <span class="toc-title">Une demande, une question ?</span>
+        </a>
+      </nav>
     </div>
   </section>
 
@@ -489,86 +553,49 @@
 
       <!-- Tabs nav -->
       <nav class="tabs-nav" role="tablist" aria-label="Choisir son appareil">
-        <button class="tab-btn active" role="tab" data-tab="ios" aria-selected="true">📱 iPhone &amp; iPad</button>
-        <button class="tab-btn" role="tab" data-tab="android" aria-selected="false">🤖 Android</button>
+        <button class="tab-btn active" role="tab" data-tab="web" aria-selected="true">🌐 Navigateur web</button>
         <button class="tab-btn" role="tab" data-tab="tv" aria-selected="false">📺 TV</button>
-        <button class="tab-btn" role="tab" data-tab="web" aria-selected="false">🌐 Navigateur web</button>
+        <button class="tab-btn" role="tab" data-tab="ios" aria-selected="false">📱 iPhone &amp; iPad</button>
+        <button class="tab-btn" role="tab" data-tab="android" aria-selected="false">🤖 Android</button>
       </nav>
 
-      <!-- Tab : iPhone & iPad -->
-      <div class="tab-panel active" id="tab-ios" role="tabpanel">
-        <p class="tab-intro">L'app à utiliser : <strong>Streamyfin</strong>. Plus moderne que l'officielle, et tu peux télécharger des films pour les regarder hors-ligne.</p>
+      <!-- Tab : Navigateur web -->
+      <div class="tab-panel active" id="tab-web" role="tabpanel">
+        <p class="tab-intro">Le plus simple : aucune installation, juste un lien.</p>
         <div class="steps">
           <div class="step">
             <div class="step-num">1</div>
             <div class="step-content">
-              <strong>Télécharge Streamyfin sur l'App Store</strong>
-              <a class="store-link" href="https://apps.apple.com/app/streamyfin/id6593660679" target="_blank" rel="noopener">Ouvrir l'App Store →</a>
+              <strong>Ouvre ton navigateur</strong>
+              <p>Chrome, Firefox, Safari, Edge — peu importe.</p>
             </div>
           </div>
           <div class="step">
             <div class="step-num">2</div>
             <div class="step-content">
-              <strong>Lance l'app et ajoute le serveur</strong>
-              <p>Au premier démarrage, Streamyfin te demande l'adresse du serveur.</p>
+              <strong>Va à cette adresse</strong>
+              <div class="url-row">
+                <div class="url-block" id="url-web">https://melozy.ismene.usbx.me/jellyfin</div>
+                <button class="copy-btn" onclick="copyUrl(this,'url-web')">Copier</button>
+              </div>
             </div>
           </div>
           <div class="step">
             <div class="step-num">3</div>
             <div class="step-content">
-              <strong>Entre cette adresse</strong>
-              <div class="url-row">
-                <div class="url-block" id="url-ios">https://melozy.ismene.usbx.me/jellyfin</div>
-                <button class="copy-btn" onclick="copyUrl(this,'url-ios')">Copier</button>
-              </div>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">4</div>
-            <div class="step-content">
               <strong>Connecte-toi</strong>
               <p>Avec les identifiants que je t'ai envoyés.</p>
               <span class="help-inline">Pas retrouvé tes identifiants ? Contacte-moi, je te les renvoie.</span>
             </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content"><strong>Mets la page en favori</strong></div>
           </div>
         </div>
-      </div>
-
-      <!-- Tab : Android -->
-      <div class="tab-panel" id="tab-android" role="tabpanel">
-        <p class="tab-intro">Même app que sur iOS : <strong>Streamyfin</strong>. Mêmes avantages, dont le téléchargement hors-ligne.</p>
-        <div class="steps">
-          <div class="step">
-            <div class="step-num">1</div>
-            <div class="step-content">
-              <strong>Télécharge Streamyfin sur le Play Store</strong>
-              <a class="store-link" href="https://play.google.com/store/apps/details?id=com.fredrikburmester.streamyfin" target="_blank" rel="noopener">Ouvrir le Play Store →</a>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">2</div>
-            <div class="step-content">
-              <strong>Lance l'app et ajoute le serveur</strong>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">3</div>
-            <div class="step-content">
-              <strong>Entre cette adresse</strong>
-              <div class="url-row">
-                <div class="url-block" id="url-android">https://melozy.ismene.usbx.me/jellyfin</div>
-                <button class="copy-btn" onclick="copyUrl(this,'url-android')">Copier</button>
-              </div>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">4</div>
-            <div class="step-content">
-              <strong>Connecte-toi</strong>
-              <p>Avec les identifiants que je t'ai envoyés.</p>
-              <span class="help-inline">Pas retrouvé tes identifiants ? Contacte-moi, je te les renvoie.</span>
-            </div>
-          </div>
+        <div class="callout info">
+          <span class="ci">💡</span>
+          <span>Sur Chrome ou Edge, tu peux "installer" PF.tv comme une vraie app (menu → "Installer cette application"). Tu auras une icône comme pour n'importe quelle app, sans passer par un store.</span>
         </div>
       </div>
 
@@ -720,43 +747,80 @@
         </div><!-- /accordion -->
       </div>
 
-      <!-- Tab : Navigateur web -->
-      <div class="tab-panel" id="tab-web" role="tabpanel">
-        <p class="tab-intro">Le plus simple : aucune installation, juste un lien.</p>
+      <!-- Tab : iPhone & iPad -->
+      <div class="tab-panel" id="tab-ios" role="tabpanel">
+        <p class="tab-intro">L'app à utiliser : <strong>Streamyfin</strong>. Plus moderne que l'officielle, et tu peux télécharger des films pour les regarder hors-ligne.</p>
         <div class="steps">
           <div class="step">
             <div class="step-num">1</div>
             <div class="step-content">
-              <strong>Ouvre ton navigateur</strong>
-              <p>Chrome, Firefox, Safari, Edge — peu importe.</p>
+              <strong>Télécharge Streamyfin sur l'App Store</strong>
+              <a class="store-link" href="https://apps.apple.com/app/streamyfin/id6593660679" target="_blank" rel="noopener">Ouvrir l'App Store →</a>
             </div>
           </div>
           <div class="step">
             <div class="step-num">2</div>
             <div class="step-content">
-              <strong>Va à cette adresse</strong>
-              <div class="url-row">
-                <div class="url-block" id="url-web">https://melozy.ismene.usbx.me/jellyfin</div>
-                <button class="copy-btn" onclick="copyUrl(this,'url-web')">Copier</button>
-              </div>
+              <strong>Lance l'app et ajoute le serveur</strong>
+              <p>Au premier démarrage, Streamyfin te demande l'adresse du serveur.</p>
             </div>
           </div>
           <div class="step">
             <div class="step-num">3</div>
+            <div class="step-content">
+              <strong>Entre cette adresse</strong>
+              <div class="url-row">
+                <div class="url-block" id="url-ios">https://melozy.ismene.usbx.me/jellyfin</div>
+                <button class="copy-btn" onclick="copyUrl(this,'url-ios')">Copier</button>
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
             <div class="step-content">
               <strong>Connecte-toi</strong>
               <p>Avec les identifiants que je t'ai envoyés.</p>
               <span class="help-inline">Pas retrouvé tes identifiants ? Contacte-moi, je te les renvoie.</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Tab : Android -->
+      <div class="tab-panel" id="tab-android" role="tabpanel">
+        <p class="tab-intro">Même app que sur iOS : <strong>Streamyfin</strong>. Mêmes avantages, dont le téléchargement hors-ligne.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <strong>Télécharge Streamyfin sur le Play Store</strong>
+              <a class="store-link" href="https://play.google.com/store/apps/details?id=com.fredrikburmester.streamyfin" target="_blank" rel="noopener">Ouvrir le Play Store →</a>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <strong>Lance l'app et ajoute le serveur</strong>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <strong>Entre cette adresse</strong>
+              <div class="url-row">
+                <div class="url-block" id="url-android">https://melozy.ismene.usbx.me/jellyfin</div>
+                <button class="copy-btn" onclick="copyUrl(this,'url-android')">Copier</button>
+              </div>
+            </div>
+          </div>
           <div class="step">
             <div class="step-num">4</div>
-            <div class="step-content"><strong>Mets la page en favori</strong></div>
+            <div class="step-content">
+              <strong>Connecte-toi</strong>
+              <p>Avec les identifiants que je t'ai envoyés.</p>
+              <span class="help-inline">Pas retrouvé tes identifiants ? Contacte-moi, je te les renvoie.</span>
+            </div>
           </div>
-        </div>
-        <div class="callout info">
-          <span class="ci">💡</span>
-          <span>Sur Chrome ou Edge, tu peux "installer" PF.tv comme une vraie app (menu → "Installer cette application"). Tu auras une icône comme pour n'importe quelle app, sans passer par un store.</span>
         </div>
       </div>
 
@@ -868,7 +932,7 @@
       applyTheme(html.dataset.theme === 'dark' ? 'light' : 'dark');
     });
 
-    applyTheme(localStorage.getItem('pftv-theme') || 'dark');
+    applyTheme(localStorage.getItem('pftv-theme') || 'light');
 
     // ─── TABS ──────────────────────────────────────────────────────────────────
     document.querySelectorAll('.tab-btn').forEach(btn => {
