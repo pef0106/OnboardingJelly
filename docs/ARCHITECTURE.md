@@ -186,21 +186,19 @@ que ce fichier.
 
 ---
 
-## 8. Points de règles à trancher (remontés du GDD)
+## 8. Points de règles tranchés (validés avec le game designer)
 
-À clarifier avant/pendant l'implémentation — le core les encodera explicitement :
+Ambiguïtés du GDD résolues — le core les encode telles quelles :
 
-1. **« Défendre » pendant un tour perdu (§4.2)** : le GDD dit qu'on peut se défendre,
-   mais aucune règle de scoring ne fait intervenir la défense. En v0, proposition :
-   le tour perdu est purement passif (l'adversaire attaque normalement), la défense
-   n'étant qu'une animation. À confirmer.
-2. **Fin de round anticipée (§6)** : « si un joueur n'a plus de tours disponibles » —
-   un joueur ayant relancé 2 dés perd 2 tours mais le round continue-t-il jusqu'au
-   tour 5 pour l'adversaire ? Proposition v0 : oui, les 5 tours se jouent, le joueur
-   pénalisé passe ses attaques des tours 1 et 2.
-3. **KO à 20 (§6.1)** : le KO fait gagner **le round** immédiatement, mais §7 liste le
-   KO comme condition de victoire **de la partie**. Proposition v0 : un KO termine la
-   partie (lecture littérale du §7). À confirmer, c'est un choix d'équilibrage majeur.
+1. **« Défendre » pendant un tour perdu (§4.2)** : la défense est **passive**. Le deck
+   protège automatiquement comme à n'importe quel tour ; « se défendre » est une
+   animation à l'écran, aucune règle supplémentaire.
+2. **Tours perdus (§4.2 / §6)** : le round dure **toujours 5 tours complets**. Un
+   joueur ayant relancé N dés passe ses attaques des N premiers tours ; l'adversaire
+   attaque normalement aux 5 tours. La clause « si un joueur n'a plus de tours
+   disponibles » du §6 est sans effet (2 relances max sur 5 tours).
+3. **KO à 20 points (§6.1 / §7)** : le KO fait gagner le round **et la partie**
+   immédiatement.
 4. **Le d10 affiche 1–10** (pas 0–9) — confirmé par le §8, encodé tel quel.
 
 ---
